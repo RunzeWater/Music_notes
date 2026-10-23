@@ -1,0 +1,363 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Music 103 Midterm Drill</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow column like a jukebox selector panel — mode tabs, deck chips, then one big card at a time */
+:root{
+  --bg:#F2F0F5; --surface:#FFFFFF; --ink:#1C1824; --muted:#5E5869; --line:#DDD8E4;
+  --accent:#B3124F; --accent-ink:#FFFFFF; --accent-soft:#F8E1EA;
+  --good:#1E7A46; --good-soft:#DFF2E7; --bad:#B42318; --bad-soft:#FBE4E1;
+  --display:"Bungee", "Arial Black", Impact, sans-serif;
+  --body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#15121B; --surface:#211D29; --ink:#EEEAF3; --muted:#A79FB3; --line:#36303F;
+  --accent:#FF5A91; --accent-ink:#1A0610; --accent-soft:#3A1726;
+  --good:#5BD08E; --good-soft:#163323; --bad:#FF7A6B; --bad-soft:#3A1916; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15121B; --surface:#211D29; --ink:#EEEAF3; --muted:#A79FB3; --line:#36303F;
+  --accent:#FF5A91; --accent-ink:#1A0610; --accent-soft:#3A1726;
+  --good:#5BD08E; --good-soft:#163323; --bad:#FF7A6B; --bad-soft:#3A1916; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+header{display:flex;flex-direction:column;gap:6px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(26px,6vw,38px);line-height:1.05;margin:0;color:var(--accent);text-wrap:balance}
+.sub{color:var(--muted);margin:0;max-width:60ch}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;border-bottom:2px solid var(--line);padding-bottom:0}
+.tab{font:600 15px var(--body);background:none;border:0;color:var(--muted);padding:10px 14px;border-bottom:3px solid transparent;margin-bottom:-2px;cursor:pointer}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab:focus-visible,.chip:focus-visible,.opt:focus-visible,.btn:focus-visible,.flip:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font:500 14px var(--body);border:1.5px solid var(--line);background:var(--surface);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.bar{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.meter{flex:1;height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.meter>i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:16px;box-shadow:0 1px 0 var(--line)}
+.kind{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.q{font-size:clamp(19px,4.2vw,23px);font-weight:600;line-height:1.35;margin:0;text-wrap:balance}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;font:400 16px/1.4 var(--body);color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer}
+.opt .k{font-family:var(--mono);font-size:13px;color:var(--muted);min-width:1.2em;padding-top:2px}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--good-soft);border-color:var(--good)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.fb{border-radius:10px;padding:12px 14px;font-size:15px}
+.fb.ok{background:var(--good-soft);color:var(--ink);border-left:4px solid var(--good)}
+.fb.no{background:var(--bad-soft);color:var(--ink);border-left:4px solid var(--bad)}
+.fb b{font-weight:700}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{font:600 15px var(--body);border-radius:10px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.hint{font-size:13px;color:var(--muted)}
+.big{font-family:var(--display);font-size:56px;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.missed{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.missed li{border-top:1px solid var(--line);padding-top:10px;font-size:15px}
+.missed .a{color:var(--good);font-weight:600}
+/* flashcards */
+.flip{min-height:260px;cursor:pointer;justify-content:center;text-align:left;width:100%;font:inherit;color:inherit}
+.front{font-size:clamp(22px,5vw,28px);font-weight:700;line-height:1.25;text-wrap:balance}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0}
+.dl dt{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.dl dd{margin:0;min-width:0}
+/* cheat sheet */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+td.y,td.l{font-family:var(--mono);font-size:13px;white-space:nowrap;font-variant-numeric:tabular-nums}
+td a{color:var(--accent);font-weight:600;text-decoration:none;white-space:nowrap}
+td a:hover{text-decoration:underline}
+h2{font-family:var(--display);font-weight:400;font-size:20px;margin:8px 0 0;color:var(--ink)}
+.note{font-size:13px;color:var(--muted);margin:0}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Music 103 · Midterm · Fri Oct 16 · Weeks 1–6</div>
+    <h1>Midterm Drill</h1>
+    <p class="sub">Multiple-choice practice built from your notes: the 20 songs, people, terms, Week 6 and the readings. Wrong answers come back at the end.</p>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" id="tab-quiz" aria-selected="true" data-view="quiz">Quiz</button>
+    <button class="tab" role="tab" id="tab-cards" aria-selected="false" data-view="cards">Flashcards</button>
+    <button class="tab" role="tab" id="tab-sheet" aria-selected="false" data-view="sheet">Song sheet</button>
+  </nav>
+
+  <!-- QUIZ -->
+  <section id="view-quiz" style="display:flex;flex-direction:column;gap:14px">
+    <div class="chips" id="deckChips"></div>
+    <div class="bar"><span id="qCount">1 / 20</span><div class="meter"><i id="qMeter"></i></div><span id="qScore">0 right</span></div>
+    <div class="card" id="qCard"></div>
+    <p class="hint">Keys: 1–4 to answer, Enter for next.</p>
+  </section>
+
+  <!-- FLASHCARDS -->
+  <section id="view-cards" hidden style="flex-direction:column;gap:14px">
+    <div class="chips" id="cardChips"></div>
+    <div class="bar"><span id="cCount">1 / 20</span><div class="meter"><i id="cMeter"></i></div></div>
+    <button class="card flip" id="cCard" aria-live="polite"></button>
+    <div class="row">
+      <button class="btn" id="cPrev">← Back</button>
+      <button class="btn primary" id="cNext">Next →</button>
+      <button class="btn" id="cShuffle">Shuffle</button>
+    </div>
+    <p class="hint">Tap the card (or Space) to flip. ← → to move.</p>
+  </section>
+
+  <!-- SHEET -->
+  <section id="view-sheet" hidden style="flex-direction:column;gap:12px">
+    <h2>The 20 songs, in order</h2>
+    <p class="note">"Listen" opens a YouTube search in a new tab. † = label from discographies, not the slides.</p>
+    <div class="tablewrap"><table id="songTable"><thead><tr><th>Song</th><th>Artist</th><th>Year</th><th>Label</th><th>Why it matters</th><th>Hear it by</th><th></th></tr></thead><tbody></tbody></table></div>
+    <h2>Pairs you could mix up</h2>
+    <div class="tablewrap"><table id="pairTable"><thead><tr><th>If you hear…</th><th>It's…</th><th>Not…</th></tr></thead><tbody></tbody></table></div>
+  </section>
+</div>
+
+<script>
+const SONGS = [
+ {s:"You'd Be Surprised",a:"Billy Murray",y:"c. 1919–20",yr:1919,l:"OKeh",w:"Irving Berlin song in Tin Pan Alley form (intro → vamp → verses → chorus)",h:"Tinny old recording, comic vaudeville vocal",e:"Tin Pan Alley"},
+ {s:"The Prisoner's Song",a:"Vernon Dalhart",y:"1924",yr:1924,l:"Victor †",w:"Million-selling record marketed as \"hillbilly\" / \"folk — of the people\"",h:"Plaintive solo vocal, sparse backing",e:"Hillbilly"},
+ {s:"No Depression in Heaven",a:"The Carter Family",y:"1936",yr:1936,l:"Decca †",w:"Rural Appalachian experience of the Depression; Maybelle's thumb-picking \"Carter style\"",h:"Group harmony over picked acoustic guitar",e:"Country"},
+ {s:"Sweet Home Chicago",a:"Robert Johnson",y:"1936/37",yr:1936,l:"Vocalion †",w:"Delta blues; textbook AAB 12-bar form; crossroads myth",h:"One voice, one acoustic guitar",e:"Delta blues"},
+ {s:"One O'Clock Jump",a:"Count Basie",y:"1937",yr:1937,l:"Decca †",w:"Swing era; 12-bar blues instrumental in Basie's riff style; the band's theme song",h:"No vocal; horn sections trading riffs",e:"Swing"},
+ {s:"Strange Things Happening Every Day",a:"Sister Rosetta Tharpe",y:"1944/45",yr:1944,l:"Decca †",w:"Gospel crossover onto the race charts; electric guitar as lead before rock 'n' roll",h:"Gospel lyric + electric guitar solo",e:"Gospel"},
+ {s:"Your Cheatin' Heart",a:"Hank Williams",y:"1952/53",yr:1952,l:"MGM †",w:"Honky-tonk: steel guitar, fiddle, nasal vocal, small band",h:"Raw male voice, steel guitar",e:"Honky-tonk"},
+ {s:"Hoochie Coochie Man",a:"Muddy Waters",y:"1954",yr:1954,l:"Chess †",w:"Chicago blues standard (written by Willie Dixon): electric full band, stop time, call and response",h:"Stop-time riff, harmonica",e:"Chicago blues"},
+ {s:"That's All Right",a:"Elvis Presley",y:"1954",yr:1954,l:"Sun",w:"Elvis's first record for Sam Phillips; Arthur Crudup original (1946); rockabilly trio",h:"Three players, no drums",e:"Rock 'n' roll"},
+ {s:"Maybellene",a:"Chuck Berry",y:"1955",yr:1955,l:"Chess †",w:"Reworked Bob Wills's \"Ida Red\" (country); car-culture teen story; writer-performer-guitarist",h:"Fast; Cadillac vs. Ford lyric; one lead voice",e:"Rock 'n' roll"},
+ {s:"Hound Dog",a:"Elvis Presley",y:"1956",yr:1956,l:"RCA Victor",w:"Transformed Big Mama Thornton's 1952 hit; Milton Berle TV scandal (\"Elvis the Pelvis\")",h:"Loud drums, backing vocals",e:"Rock 'n' roll"},
+ {s:"What'd I Say",a:"Ray Charles",y:"1959",yr:1959,l:"Atlantic",w:"Crystallised soul (gospel + R&B); call and response with the Raelettes; banned by some stations",h:"Electric piano riff; \"hey / ho\"",e:"Soul"},
+ {s:"The Twist",a:"Chubby Checker",y:"1960",yr:1960,l:"Parkway †",w:"Hank Ballard's song; No. 1 in 1960 and again in 1962; dance craze via Dick Clark",h:"Dance instructions in the lyric",e:"Teen pop"},
+ {s:"I Fall to Pieces",a:"Patsy Cline",y:"1961",yr:1961,l:"Decca †",w:"Nashville Sound: smooth production, Jordanaires, studio musicians; country–pop crossover",h:"Smooth female voice, faint backing choir",e:"Nashville Sound"},
+ {s:"Be My Baby",a:"The Ronettes",y:"1963",yr:1963,l:"Philles",w:"Greenwich–Barry–Spector; Phil Spector's Wall of Sound at Gold Star Studios",h:"Drum intro: boom, boom-boom, CRACK",e:"Girl group"},
+ {s:"Surfin' U.S.A.",a:"The Beach Boys",y:"1963",yr:1963,l:"Capitol",w:"Built on Chuck Berry's \"Sweet Little Sixteen\" → songwriting credit given to Berry",h:"Berry guitar intro + stacked harmonies, falsetto",e:"Surf"},
+ {s:"Subterranean Homesick Blues",a:"Bob Dylan",y:"1965",yr:1965,l:"Columbia",w:"On Bringing It All Back Home; rock 'n' roll beat + surreal Beat-poet lyrics; seen as a threat to the folk movement",h:"Rapid half-spoken vocal, harmonica",e:"Folk rock"},
+ {s:"Wouldn't It Be Nice",a:"The Beach Boys",y:"1966",yr:1966,l:"Capitol",w:"Pet Sounds; studio as instrument; overdubbed voices, key change, Wrecking Crew",h:"Chiming intro, dense orchestral layers",e:"Studio pop"},
+ {s:"You Keep Me Hangin' On",a:"The Supremes",y:"1966",yr:1966,l:"Motown",w:"Holland–Dozier–Holland + the Funk Brothers; multitrack, Wall of Sound influence; covered by Vanilla Fudge",h:"Morse-code / radio-broadcast guitar pulse",e:"Motown"},
+ {s:"Respect",a:"Aretha Franklin",y:"1967",yr:1967,l:"Atlantic",w:"Otis Redding's 1965 song, produced by Jerry Wexler; feminist symbol; Black racial self-consciousness",h:"Gospel power vocal; spelled-out \"R-E-S-P-E-C-T\"",e:"Soul"}
+];
+
+const PAIRS = [
+ ["Scratchy old record, comic vaudeville voice","Billy Murray","Vernon Dalhart (sad, plaintive ballad)"],
+ ["Group harmony over picked acoustic guitar","Carter Family","Hank Williams (one male voice + steel guitar)"],
+ ["Steel guitar, raw male voice","Hank Williams","Patsy Cline (smooth female voice, backing choir)"],
+ ["One man, one acoustic guitar","Robert Johnson","Muddy Waters (electric band, harmonica, stop-time)"],
+ ["Big band, horns, no singing","Count Basie","— the only instrumental"],
+ ["1940s gospel lyric + electric guitar solo","Rosetta Tharpe","Ray Charles (electric piano riff, \"hey / ho\")"],
+ ["Small trio, no drums","\"That's All Right\"","\"Hound Dog\" (loud drums, backing vocals)"],
+ ["Berry-style guitar intro, one voice","\"Maybellene\"","\"Surfin' U.S.A.\" (same kind of intro, stacked harmonies)"],
+ ["\"Boom, boom-boom, CRACK\" drum intro","\"Be My Baby\"","\"You Keep Me Hangin' On\" (Morse-code guitar)"],
+ ["Surf lyrics, simple harmonies","\"Surfin' U.S.A.\" (1963)","\"Wouldn't It Be Nice\" (1966: chiming intro, orchestral layers)"]
+];
+
+// Fact bank: [deck, question, answer, [wrong x3], explanation]
+const FACTS = [
+ ["concepts","Subjectivity can be defined as:","The condition of being a subject",["The sounds of an acoustic guitar","The space we hear rather than the space we see","The soundscape of outer space"],"This is the review-sheet example question."],
+ ["concepts","According to Frith, by what year was the basic structure of the modern music industry in place?","1945",["1899","1925","1965"],"Frith, p. 236: records as commodities, controlled by a few large companies."],
+ ["concepts","Frith's \"industrialization of music\" argues that the industry…","Shapes what songs and performances can be, not just sells them",["Has no effect on musical style","Began with the music video","Is controlled mainly by audiences"],"Frith 232: the industry \"determines what songs, singers and performances are and can be.\""],
+ ["concepts","Brabazon warns that music writing often falls back on…","Lyrical analysis, political resistance and masculine authenticity",["Chart statistics and sales data","Music theory and notation","Album artwork and fashion"],"Brabazon, p. 40."],
+ ["concepts","For Brabazon, listening choices are tied to…","Building a sense of self and boundaries of belonging",["Only the price of records","Formal music training","Radio frequency bands"],"\"The tether between listening choices and constructing a sense of self…\""],
+ ["concepts","Tin Pan Alley's main product was…","Sheet music",["Radio broadcasts","LP albums","Music videos"],"Tin Pan Alley publishers in New York sold songs as sheet music."],
+ ["concepts","Who wrote \"You'd Be Surprised\" (recorded by Billy Murray)?","Irving Berlin",["Scott Joplin","Paul Whiteman","Louis Armstrong"],"Berlin is the Tin Pan Alley songwriter on the review sheet."],
+ ["concepts","Scott Joplin's \"Maple Leaf Rag\" was copyrighted in…","1899",["1989","1920","1868"],"Review-sheet example; it exemplifies the ragtime sound."],
+ ["concepts","\"Hillbilly\" and \"race records\" were mainly…","Marketing categories invented by the record industry",["Names musicians chose for themselves","Radio station call signs","Types of instruments"],"Genres as industry constructions, split along race and region."],
+ ["concepts","Whose 1920 recording opened the market for \"race records\"?","Mamie Smith",["Bessie Smith","Ma Rainey","Sister Rosetta Tharpe"],"Mamie Smith's \"Crazy Blues\" (OKeh, 1920)."],
+ ["concepts","\"Take a recording outfit into the territory where such songs grow\" describes…","Location recording of hillbilly music",["Tin Pan Alley publishing","Recording big bands in New York","Motown's assembly line"],"Brackett on early country recording trips."],
+ ["concepts","The classic blues lyric pattern is…","AAB",["ABAB","AABA","ABC"],"Line, repeated line, answering line over 12 bars."],
+ ["concepts","1920s \"classic blues\" was mainly sung by…","Women vaudeville singers such as Bessie Smith",["Solo Delta guitarists","Chicago electric bands","Gospel choirs"],"Classic blues = the recorded, professional women's blues of the 1920s."],
+ ["concepts","The Grand Ole Opry was broadcast on…","WSM, Nashville",["WLS, Chicago","WINS, New York","KFWB, Los Angeles"],"WSM made Nashville the centre of country music."],
+ ["concepts","The Nashville Sound aimed for…","Smoother country that could cross over to pop",["Rawer, louder honky-tonk","Instrumental surf music","Electric Chicago blues"],"Yodel and rough edges removed; backing singers and studio musicians added."],
+ ["concepts","Bob Wills is associated with…","Western swing",["Bluegrass","Honky-tonk","The Nashville Sound"],"His \"Ida Red\" became Chuck Berry's \"Maybellene.\""],
+ ["concepts","Brackett defines R&B as…","Blues-based music using jazz elements, for an urban African American audience",["Country music with drums","White pop covers of blues songs","Gospel music sung in church"],"Brackett's definition of rhythm and blues."],
+ ["concepts","Billboard's \"race\" chart was renamed…","Rhythm and Blues",["Soul","Hillbilly","Hot 100"],"Another genre label that comes from outside the music."],
+ ["concepts","T-Bone Walker is important as…","An early electric-guitar blues player",["A Tin Pan Alley songwriter","A country fiddler","A Motown producer"],"Listed under Week 3 on the review sheet."],
+ ["concepts","Ray Charles said his music differed from rock 'n' roll because…","It was more serious; rock 'n' roll was music teenagers could play themselves",["It was faster","It used no gospel influence","It was written for radio jingles"],"Quoted in Brackett."],
+ ["concepts","Chuck Berry described \"Maybellene\" as \"basically…\"","Country",["Jazz","Gospel","Blues"],"\"Maybe a little faster, but basically it was country.\""],
+ ["concepts","Little Richard said his wild image was meant to make adults think he was…","Harmless",["Dangerous","Religious","Wealthy"],"Image as a strategy across a racial barrier."],
+ ["concepts","Brackett says Elvis's voice was \"not so much synthesizing preexisting styles as…\"","Juxtaposing them",["Inventing them","Rejecting them","Copying one of them"],"Brackett, p. 111."],
+ ["week5","Payola means…","Paying DJs to play records",["A royalty for songwriters","A dance craze","A type of jukebox"],"Alan Freed was indicted on May 9, 1960."],
+ ["week5","Dick Clark hosted…","American Bandstand",["The Ed Sullivan Show","The Grand Ole Opry","Shindig!"],"TV became the new gatekeeper after payola."],
+ ["week5","The Brill Building model was…","Teams of professional songwriters writing for performers",["Bands writing their own songs","Live radio orchestras","Field recordings in the South"],"Goffin–King, Barry–Greenwich; Aldon Music."],
+ ["week5","Phil Spector's production style is called…","The Wall of Sound",["The Nashville Sound","The Motown Sound","The California Sound"],"Recorded at Gold Star Studios with the Wrecking Crew."],
+ ["week5","The Wrecking Crew were…","L.A. session musicians on many hit records",["A girl group","A Motown songwriting team","A Chicago blues band"],"Hal Blaine on drums; on Spector and Beach Boys records."],
+ ["week5","The first U.S. No. 1 by an all-girl group was…","The Shirelles, \"Will You Love Me Tomorrow\"",["The Ronettes, \"Be My Baby\"","The Supremes, \"Where Did Our Love Go\"","The Exciters, \"Do Wah Diddy\""],"1960."],
+ ["week5","\"Brian Wilson's puppets?\" (Melody Maker, 1966) raises the question of…","Who the real author of a Beach Boys record is",["Whether the band used puppets on TV","Brian Wilson's drug use","The band's record label"],"Producer as auteur vs. the named band."],
+ ["week5","Week 5's example of music and visuality was…","David Bowie, \"Ashes to Ashes\"",["Michael Jackson, \"Thriller\"","Madonna, \"Vogue\"","The Beatles, \"Help!\""],"Music videos and visuality."],
+ ["week6","Which is NOT one of Ronald Cohen's five characteristics of folk?","Written by professional songwriters",["Authorship historically unknown","Passed down by oral transmission","Performed by non-professionals"],"Cohen's five: regional origin, unknown authorship, non-professionals, simple communal composition, oral transmission."],
+ ["week6","The folk debates on the slides were left vs. right, authenticity vs. change, and…","Preservation vs. transformation",["Radio vs. television","Live vs. recorded","Urban vs. suburban"],"Week 6.2."],
+ ["week6","Woody Guthrie (1912–1967) is known for…","Adding social commentary and protest to pop; \"This Land Is Your Land\"",["Founding Motown","Producing Pet Sounds","Inventing the Wall of Sound"],"Dylan's main influence."],
+ ["week6","Pete Seeger (1919–2014) is noted for…","Union support and Communist Party membership",["Playing at Newport with an electric band","Writing for the Brill Building","Owning Stax Records"],"Influential politically and musically."],
+ ["week6","Barbara Dane recorded…","\"I Hate the Capitalist System\" (1973)",["\"This Land Is Your Land\"","\"Blowin' in the Wind\"","\"A Change Is Gonna Come\""],"On Paredon/Folkways; anti-war coffeehouse circuit."],
+ ["week6","Dylan arrived in Greenwich Village in…","1961",["1955","1965","1969"],"A Robert Shelton NYT review led to a Columbia contract; debut album 1962."],
+ ["week6","At Newport 1965, Dylan was backed by…","The Butterfield Blues Band",["The Wrecking Crew","The Funk Brothers","The Byrds"],"His first live, plugged-in set, called a \"defection.\""],
+ ["week6","Which was NOT one of the folk purists' objections at Newport 1965?","Singing protest songs",["The electric guitar","Using a rock 'n' roll band","Performing a single"],"The three objections on the slide."],
+ ["week6","Dylan going electric shifted the relationship between…","Sound and noise, lyric and rhythm",["Radio and TV","Sheet music and records","Country and western"],"It made the guitar central to the rock decade."],
+ ["week6","\"Folk rock\" was a term coined by…","The U.S. music press, describing the Byrds",["Bob Dylan","Pete Seeger","Columbia Records' ads"],"Genre labels come from outside the music."],
+ ["week6","The Byrds' \"Mr. Tambourine Man\" is known for…","The 12-string Rickenbacker guitar",["A theremin solo","A tambourine on the backbeat","A gospel choir"],"Their debut single, mostly played by the Wrecking Crew."],
+ ["week6","In the slides, soul as \"Southern music\" means…","An ideology of displacement and narratives of Black America",["Music recorded only in Memphis","Country music with horns","Music for Southern radio only"],"Example: Sam Cooke, \"A Change Is Gonna Come\" (1964)."],
+ ["week6","Stax Records was based in…","Memphis",["Detroit","Chicago","Los Angeles"],"Down-home Southern soul: Otis Redding, Booker T. & the MG's, Sam & Dave."],
+ ["week6","Motown was founded by Berry Gordy in Detroit in…","1959",["1949","1965","1972"],"Modelled on the assembly line; moved to L.A. in 1972."],
+ ["week6","By the mid-1960s, Motown was…","The most successful U.S. business owned by an African American",["Owned by Atlantic Records","Based in Memphis","A subsidiary of Capitol"],"Week 6.3."],
+ ["week6","Which is a feature of the \"Motown Sound\"?","Tambourine accenting the backbeat",["Steel guitar and fiddle","No drums","Solo acoustic guitar"],"Also strings, horns, background vocals, and KISS: Keep It Simple, Stupid."],
+ ["week6","Holland–Dozier–Holland had a 1967 dispute with Berry Gordy over…","Royalties",["Album covers","Touring schedules","Studio equipment"],"25 No. 1 singles in 1962–67."],
+ ["week6","The Funk Brothers were…","Motown's house session band",["A Stax songwriting team","Dylan's backing band","A Brill Building duo"],"Compare the Wrecking Crew and the Nashville A-Team."],
+ ["week6","\"You Keep Me Hangin' On\" was notably covered by…","Vanilla Fudge",["The Animals","The Byrds","Manfred Mann"],"Week 6.3 slide."],
+ ["week6","Who produced Aretha Franklin's \"Respect\"?","Jerry Wexler",["Berry Gordy","Phil Spector","Sam Phillips"],"Atlantic, 1967."],
+ ["week6","\"Respect\" was first released by…","Otis Redding (1965)",["Sam Cooke","Ray Charles","Wilson Pickett"],"Aretha turned it into a woman demanding respect."],
+ ["week6","Aretha Franklin was born in…","Memphis, 1942",["Detroit, 1950","Chicago, 1938","New Orleans, 1945"],"Gospel roots; \"The Queen of Soul.\""],
+ ["readings","\"Good Vibrations\" reached No. 1 in…","December 1966",["August 1963","May 1966","June 1968"],"Released October 1966; the Beach Boys' first million-selling single."],
+ ["readings","How was \"Good Vibrations\" recorded?","In short fragments across several studios, then pieced together",["Live in one take","On a home four-track","At Motown's Detroit studio"],"\"Like working with a vast jigsaw puzzle\" — Mike Love."],
+ ["readings","The whistling sound on \"Good Vibrations\" comes from…","An Electro-Theremin",["A harmonica","A Hammond organ","A 12-string Rickenbacker"],"Leight, Billboard."],
+ ["readings","Why wasn't \"Good Vibrations\" on Pet Sounds?","Brian Wilson, as producer, decided to leave it off",["Capitol refused to include it","It wasn't written until 1968","Mike Love vetoed it"],"Pet Sounds peaked at only No. 10."],
+ ["readings","Before Capitol, early Beatles singles came out in the U.S. on…","Vee-Jay and Swan (Dick Clark's label)",["Motown and Stax","Sun and Chess","Atlantic and Decca"],"All flopped at first."],
+ ["readings","\"I Want to Hold Your Hand\" hit No. 1 in the U.S. on…","February 1, 1964",["December 26, 1963","November 22, 1963","July 4, 1965"],"Dec 26, 1963 was the U.S. release date."],
+ ["readings","About how many Americans watched the Beatles on Ed Sullivan?","73 million",["7 million","25 million","150 million"],"34% of the U.S. population."],
+ ["readings","Manfred Mann's \"Do Wah Diddy Diddy\" had first flopped for…","The Exciters, a Black girl group",["The Supremes","The Shirelles","The Ronettes"],"A Brill Building song (Barry–Greenwich)."]
+];
+
+const DECKS = {all:"Everything",songs:"20 songs",concepts:"Weeks 1–4",week5:"Week 5",week6:"Week 6",readings:"Readings"};
+
+const shuffle = a => { a = a.slice(); for (let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]} return a; };
+const pick = (arr,n,not) => shuffle(arr.filter(x=>!not.includes(x))).slice(0,n);
+const uniq = a => [...new Set(a)];
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+
+function songQs(){
+  const qs=[]; const artists=uniq(SONGS.map(s=>s.a)); const labels=uniq(SONGS.map(s=>s.l.replace(" †","")));
+  SONGS.forEach(s=>{
+    const lab=s.l.replace(" †","");
+    qs.push({kind:"Song · artist",q:`Who recorded "${s.s}"?`,a:s.a,o:pick(artists,3,[s.a]),x:`${s.s} — ${s.a}, ${s.y}, ${s.l}.`});
+    const yrs=uniq(SONGS.map(t=>t.y)).filter(y=>y!==s.y);
+    qs.push({kind:"Song · year",q:`"${s.s}" (${s.a}) dates from…`,a:s.y,o:pick(yrs,3,[]),x:`${s.y}. ${s.w}.`});
+    qs.push({kind:"Song · label",q:`Which label released "${s.s}"?`,a:lab,o:pick(labels,3,[lab]),x:`${s.l}${s.l.includes("†")?" (label from discographies, not the slides)":""}.`});
+    qs.push({kind:"Song · significance",q:`"${s.s}" matters because…`,a:s.w,o:pick(SONGS.map(t=>t.w),3,[s.w]),x:`${s.s} — ${s.a} (${s.y}).`});
+    qs.push({kind:"Listening cue",q:`You hear: ${s.h}. Which song is it?`,a:`"${s.s}" — ${s.a}`,o:pick(SONGS.map(t=>`"${t.s}" — ${t.a}`),3,[`"${s.s}" — ${s.a}`]),x:`Cue for ${s.s}: ${s.h}.`});
+  });
+  return qs;
+}
+function factQs(deck){
+  return FACTS.filter(f=>deck==="all"||f[0]===deck).map(f=>({kind:DECKS[f[0]],q:f[1],a:f[2],o:f[3],x:f[4]}));
+}
+function buildDeck(deck){
+  let pool = deck==="songs" ? songQs() : deck==="all" ? songQs().concat(factQs("all")) : factQs(deck);
+  return shuffle(pool).slice(0, Math.min(20,pool.length)).map(q=>({...q,choices:shuffle([q.a,...q.o])}));
+}
+
+/* ---------- QUIZ ---------- */
+let qDeckName="all", qList=[], qi=0, right=0, answered=false, missed=[];
+const qCard=document.getElementById("qCard");
+function renderChips(el,current,onPick){
+  el.innerHTML=Object.entries(DECKS).map(([k,v])=>`<button class="chip" id="${el.id}-${k}" aria-pressed="${k===current}" data-k="${k}">${v}</button>`).join("");
+  el.querySelectorAll(".chip").forEach(b=>b.onclick=()=>onPick(b.dataset.k));
+}
+function startQuiz(deck,list){
+  qDeckName=deck; qList=list||buildDeck(deck); qi=0; right=0; missed=[];
+  renderChips(document.getElementById("deckChips"),deck,d=>startQuiz(d));
+  showQ();
+}
+function updBar(){
+  document.getElementById("qCount").textContent=`${Math.min(qi+1,qList.length)} / ${qList.length}`;
+  document.getElementById("qScore").textContent=`${right} right`;
+  document.getElementById("qMeter").style.width=`${(qi/qList.length)*100}%`;
+}
+function showQ(){
+  answered=false; updBar();
+  if(qi>=qList.length) return showEnd();
+  const q=qList[qi];
+  qCard.innerHTML=`<div class="kind">${esc(q.kind)}</div><p class="q">${esc(q.q)}</p>
+   <div class="opts">${q.choices.map((c,i)=>`<button class="opt" id="opt-${i}" data-i="${i}"><span class="k">${i+1}</span><span>${esc(c)}</span></button>`).join("")}</div>
+   <div id="fbBox"></div>`;
+  qCard.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(+b.dataset.i));
+}
+function answer(i){
+  if(answered) return; answered=true;
+  const q=qList[qi]; const ok=q.choices[i]===q.a;
+  if(ok) right++; else missed.push(q);
+  qCard.querySelectorAll(".opt").forEach((b,j)=>{b.disabled=true; if(q.choices[j]===q.a) b.classList.add("right"); else if(j===i) b.classList.add("wrong");});
+  document.getElementById("fbBox").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b>${ok?"Correct.":"Not quite."}</b> ${ok?"":"Answer: <b>"+esc(q.a)+"</b>. "}${esc(q.x)}</div>
+   <div class="row" style="margin-top:12px"><button class="btn primary" id="nextBtn">${qi+1<qList.length?"Next question →":"See results"}</button></div>`;
+  document.getElementById("nextBtn").onclick=next; document.getElementById("nextBtn").focus();
+  document.getElementById("qScore").textContent=`${right} right`;
+}
+function next(){ qi++; showQ(); }
+function showEnd(){
+  document.getElementById("qMeter").style.width="100%";
+  document.getElementById("qCount").textContent=`${qList.length} / ${qList.length}`;
+  const pct=Math.round(right/qList.length*100);
+  qCard.innerHTML=`<div class="kind">Round done · ${esc(DECKS[qDeckName]||"Missed questions")}</div>
+   <div class="row" style="align-items:baseline;gap:14px"><span class="big">${right}/${qList.length}</span><span class="hint">${pct}%</span></div>
+   ${missed.length?`<p style="margin:0;font-weight:600">Review these ${missed.length}:</p><ul class="missed">${missed.map(m=>`<li>${esc(m.q)}<br><span class="a">${esc(m.a)}</span></li>`).join("")}</ul>`:`<p style="margin:0">Clean round. Try another deck.</p>`}
+   <div class="row">${missed.length?`<button class="btn primary" id="retryMissed">Retry the ${missed.length} missed</button>`:""}<button class="btn" id="newRound">New round</button></div>`;
+  const rm=document.getElementById("retryMissed");
+  if(rm){const m=missed.map(q=>({...q,choices:shuffle([q.a,...q.o])})); rm.onclick=()=>startQuiz(qDeckName,shuffle(m));}
+  document.getElementById("newRound").onclick=()=>startQuiz(qDeckName);
+}
+
+/* ---------- FLASHCARDS ---------- */
+let cDeck="songs", cards=[], ci=0, flipped=false;
+const cCard=document.getElementById("cCard");
+function buildCards(deck){
+  const sc=SONGS.map(s=>({front:`"${s.s}"`,sub:"Name the artist, year, label and why it matters",back:`<dl class="dl"><dt>Artist</dt><dd>${esc(s.a)}</dd><dt>Year</dt><dd>${esc(s.y)}</dd><dt>Label</dt><dd>${esc(s.l)}</dd><dt>Style</dt><dd>${esc(s.e)}</dd><dt>Why</dt><dd>${esc(s.w)}</dd><dt>Hear it by</dt><dd>${esc(s.h)}</dd></dl>`}));
+  const fc=FACTS.filter(f=>deck==="all"||f[0]===deck).map(f=>({front:f[1],sub:DECKS[f[0]],back:`<p class="q" style="color:var(--good)">${esc(f[2])}</p><p style="margin:0;color:var(--muted)">${esc(f[4])}</p>`}));
+  return deck==="songs"?sc:deck==="all"?sc.concat(fc):fc;
+}
+function startCards(deck,mix){
+  cDeck=deck; cards=buildCards(deck); if(mix) cards=shuffle(cards); ci=0; flipped=false;
+  renderChips(document.getElementById("cardChips"),deck,d=>startCards(d));
+  showCard();
+}
+function showCard(){
+  const c=cards[ci];
+  document.getElementById("cCount").textContent=`${ci+1} / ${cards.length}`;
+  document.getElementById("cMeter").style.width=`${((ci+1)/cards.length)*100}%`;
+  cCard.innerHTML = flipped
+    ? `<div class="kind">Answer</div>${c.back}`
+    : `<div class="kind">${esc(c.sub)}</div><div class="front">${esc(c.front)}</div><div class="hint">Tap to reveal</div>`;
+}
+cCard.onclick=()=>{flipped=!flipped; showCard();};
+document.getElementById("cNext").onclick=()=>{ci=(ci+1)%cards.length; flipped=false; showCard();};
+document.getElementById("cPrev").onclick=()=>{ci=(ci-1+cards.length)%cards.length; flipped=false; showCard();};
+document.getElementById("cShuffle").onclick=()=>startCards(cDeck,true);
+
+/* ---------- SHEET ---------- */
+document.querySelector("#songTable tbody").innerHTML=SONGS.map(s=>`<tr><td><b>${esc(s.s)}</b></td><td>${esc(s.a)}</td><td class="y">${esc(s.y)}</td><td class="l">${esc(s.l)}</td><td>${esc(s.w)}</td><td>${esc(s.h)}</td><td><a href="https://www.youtube.com/results?search_query=${encodeURIComponent(s.a+" "+s.s)}" target="_blank" rel="noopener">Listen ↗</a></td></tr>`).join("");
+document.querySelector("#pairTable tbody").innerHTML=PAIRS.map(p=>`<tr><td>${esc(p[0])}</td><td><b>${esc(p[1])}</b></td><td>${esc(p[2])}</td></tr>`).join("");
+
+/* ---------- TABS & KEYS ---------- */
+let view="quiz";
+function setView(v){
+  view=v;
+  document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.view===v));
+  ["quiz","cards","sheet"].forEach(k=>{const el=document.getElementById("view-"+k); el.hidden=k!==v; if(k===v) el.style.display="flex";});
+  try{localStorage.setItem("m103view",v)}catch(e){}
+}
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>setView(t.dataset.view));
+document.addEventListener("keydown",e=>{
+  if(view==="quiz"){
+    if(!answered && /^[1-4]$/.test(e.key)){const b=document.getElementById("opt-"+(+e.key-1)); if(b){e.preventDefault(); b.click();}}
+    else if(answered && e.key==="Enter" && document.activeElement?.id!=="nextBtn"){e.preventDefault(); next();}
+  } else if(view==="cards"){
+    if(e.key===" "){e.preventDefault(); cCard.click();}
+    if(e.key==="ArrowRight") document.getElementById("cNext").click();
+    if(e.key==="ArrowLeft") document.getElementById("cPrev").click();
+  }
+});
+
+startQuiz("all"); startCards("songs");
+try{const v=localStorage.getItem("m103view"); if(v&&["quiz","cards","sheet"].includes(v)) setView(v);}catch(e){}
+</script>
+
+</body></html>
